@@ -2,6 +2,8 @@ import asyncio
 import logging
 from typing import Optional
 from aiogram import Bot, Dispatcher
+from aiogram.client.telegram import TelegramAPIServer
+from aiogram.client.session.aiohttp import AiohttpSession
 from app.core.config import settings
 from app.bot.handlers import router as bot_router
 
@@ -17,19 +19,26 @@ async def start_bot():
     global bot, dp, bot_task
 
     if not settings.BOT_TOKEN or settings.BOT_TOKEN == "YOUR_TELEGRAM_BOT_TOKEN_HERE":
-        logger.info("ℹ️ BOT_TOKEN не указан в .env. Бот не запущен, но REST API и Mini App активны.")
+        logger.info("BOT_TOKEN not set. Bot not started, REST API active.")
         return
 
     try:
-        bot = Bot(token=settings.BOT_TOKEN)
+        proxy_url = getattr(settings, 'TELEGRAM_API_PROXY', '')
+        if proxy_url:
+            custom_api = TelegramAPIServer.from_base(proxy_url)
+            session = AiohttpSession(api=custom_api)
+            bot = Bot(token=settings.BOT_TOKEN, session=session)
+            logger.info(f"Using Telegram API proxy: {proxy_url}")
+        else:
+            bot = Bot(token=settings.BOT_TOKEN)
+
         dp = Dispatcher()
         dp.include_router(bot_router)
 
-        logger.info("🚀 Запуск Telegram-бота (polling)...")
-        # Run polling in asyncio background task
+        logger.info("Starting Telegram bot (polling)...")
         bot_task = asyncio.create_task(dp.start_polling(bot))
     except Exception as e:
-        logger.error(f"❌ Ошибка запуска Telegram-бота: {e}")
+        logger.error(f"Bot start error: {e}", exc_info=True)
 
 
 async def stop_bot():
@@ -39,4 +48,4 @@ async def stop_bot():
         bot_task.cancel()
     if bot:
         await bot.session.close()
-        logger.info("🛑 Telegram-бот остановлен.")
+        logger.info("Telegram bot stopped.")

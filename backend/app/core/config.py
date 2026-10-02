@@ -5,6 +5,7 @@ from typing import Optional
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Gym Tracker TMA"
     API_V1_STR: str = "/api"
+    TELEGRAM_API_PROXY: str = ""
     
     # Telegram Bot Token (optional in dev mode)
     BOT_TOKEN: Optional[str] = None
