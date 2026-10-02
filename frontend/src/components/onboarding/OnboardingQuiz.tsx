@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Sparkles, ArrowRight, ArrowLeft, Check, Dumbbell, Zap, Flame, Target, Activity, Ruler,
-  User, Baby, Weight, RulerIcon, ArmMuscle, Shield, Footprints, Trophy, TrendingUp, Calendar, Bolt,
+  User, Baby, Weight, RulerIcon, Shield, Footprints, Trophy, TrendingUp, Calendar, Bolt,
 } from 'lucide-react';
 import { User as UserType, WorkoutProgram } from '../../types';
 import { programsApi, authApi } from '../../services/api';
@@ -262,7 +262,7 @@ export const OnboardingQuiz: React.FC<OnboardingQuizProps> = ({ user, onComplete
 
             <div className="grid grid-cols-2 gap-3">
               {[
-                { label: 'Бицепс', sub: 'напряжённый', hint: 'по пику руки', value: biceps, set: setBiceps, min: 20, max: 65, icon: ArmMuscle },
+                { label: 'Бицепс', sub: 'напряжённый', hint: 'по пику руки', value: biceps, set: setBiceps, min: 20, max: 65, icon: Dumbbell },
                 { label: 'Грудь', sub: 'на вдохе', hint: 'по соскам / лопаткам', value: chest, set: setChest, min: 60, max: 160, icon: Shield },
                 { label: 'Талия', sub: 'на выдохе', hint: 'по уровню пупка', value: waist, set: setWaist, min: 50, max: 160, icon: RulerIcon },
                 { label: 'Бёдра', sub: 'ягодицы', hint: 'по максимуму', value: hips, set: setHips, min: 60, max: 160, icon: Footprints },
