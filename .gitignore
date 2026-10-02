@@ -1,0 +1,33 @@
+# Secrets
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Database
+*.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+
+# Qwen
+.qwen/
+.agents/
+skills-lock.json
